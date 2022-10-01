@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/blog_index.css' %}">
+{% endblock %}
+{% block body_class %}template-blogindexpage{% endblock %}
+
+{% block content %}
+    
+    {% for blog in blogpages %}
+        <div id="{{blog.specific.id}}"class="blog-index-item">
+            {% for block in blog.body %}
+                {% if block.block_type == 'image' %}
+                    <div class="blog-index-image">
+                        <a href="{% pageurl blog %}">{% image block.value fill-622x674 %}</a>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        
+        
+            <div class="blog-index-para">
+                <h2>{{blog.specific.short_heading}}</h2>
+                {{blog.specific.date}}
+                {{ blog.specific.description|richtext }}
+            </div>
+        </div>
+    {% endfor %}
+
+    {% block extra_js %}
+        <script src="{% static 'js/blog_page.js' %}"></script>
+    {% endblock %}
+    
+{% endblock %}

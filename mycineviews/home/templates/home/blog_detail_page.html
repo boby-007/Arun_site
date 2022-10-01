@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/blog_page.css' %}">
+{% endblock %}
+
+{% block body_class %}template-blogdetailpage{% endblock %}
+
+{% block content %}
+<p class="bread-crumbs"><a class="bread-crumbs-blog" href="{{ page.get_parent.url }}">Blog   ></a>    {{page.title}}</p>
+<article class="blog-page">
+<h1>{{page.short_heading}}</h1>
+<div class="date">{{page.date}}</div>
+
+    
+    {% for block in page.body %}
+    {% if block.block_type == 'image' %}
+    <div class="blog-image-class blog-detail-divs">
+        {% image block.value fill-751x486 %}
+    </div>
+    {% endif %}
+    {% endfor %}
+
+    <div class="blog-para blog-detail-divs"> 
+    {% for block in page.body %}         
+    {% if block.block_type == 'blog' %}   
+    {{ block.value }}
+    {% endif %}
+    {% endfor %}    
+    </div>
+</article>
+
+
+{% endblock %}
